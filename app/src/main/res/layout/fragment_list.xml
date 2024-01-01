@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="8dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="5dp"
+            android:layout_above="@+id/relative_layout_search"/>
+
+        <RelativeLayout
+            android:id="@+id/relative_layout_search"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginBottom="5dp"
+            android:background="@color/colorPrimary"
+            android:layout_above="@+id/toggle_view">
+
+            <EditText
+                android:id="@+id/edit_text_search"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:focusable="true"
+                android:textColor="@color/colorWhite"
+                android:layout_toLeftOf="@+id/image_search"/>
+
+            <ImageView
+                android:id="@+id/image_search"
+                android:layout_height="40dp"
+                android:layout_width="40dp"
+                android:background="@drawable/ic_baseline_search_24"
+                android:layout_alignParentEnd="true"/>
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/toggle_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@color/colorPrimary"
+            android:textColor="@color/colorWhite"
+            android:text="@string/toggle_view_text" />
+
+    </RelativeLayout>
+
+</FrameLayout>
