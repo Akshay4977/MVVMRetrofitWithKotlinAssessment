@@ -1,5 +1,6 @@
 package com.example.imageappwithretrofitgridandlist.repository
 
+import androidx.lifecycle.MutableLiveData
 import com.example.imageappwithretrofitgridandlist.models.Item
 import com.example.imageappwithretrofitgridandlist.retrofit.ImageApi
 import com.example.imageappwithretrofitgridandlist.retrofit.RetrofitModule
@@ -9,7 +10,7 @@ import retrofit2.awaitResponse
 class ImageRepo(imageApi: ImageApi) {
     val imagesApi = RetrofitModule.ApiClient.apiService
 
-    suspend fun getItemList(): List<Item> {
+    suspend fun getItemList(): List<Item>{
 
         return try {
 
@@ -17,11 +18,12 @@ class ImageRepo(imageApi: ImageApi) {
             if (response!!.isSuccessful) {
                 val list = response?.body()?.hits ?: emptyList()
                 list.map { item -> item }
+                return list
             } else {
-                emptyList()
+                return emptyList()
             }
         } catch (exception: Exception) {
-            emptyList()
+            return emptyList()
         }
     }
 

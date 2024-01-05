@@ -16,7 +16,7 @@ import java.util.*
 
 class ListAdapter : RecyclerView.Adapter<ListAdapter.MyViewHolder>() {
 
-    private var imgeList = emptyList<Item>()
+    public var imgeList = emptyList<Item>()
     private var isGrid: Boolean = false
     private var context: Context? = null
     private val currentTimestamp = 1704135641507
@@ -53,10 +53,8 @@ class ListAdapter : RecyclerView.Adapter<ListAdapter.MyViewHolder>() {
         holder.itemView.item_date.text = simpleDateFormat.format(currentTimestamp)
     }
 
-    fun setData(image: List<Item>, isGrid: Boolean) {
-        this.imgeList = image
+    fun setData(isGrid: Boolean) {
         this.isGrid = isGrid
-
         notifyDataSetChanged()
     }
 

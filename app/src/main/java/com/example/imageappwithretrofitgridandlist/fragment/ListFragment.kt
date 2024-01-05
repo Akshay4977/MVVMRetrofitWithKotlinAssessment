@@ -5,15 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.imageappwithretrofitgridandlist.R
 import com.example.imageappwithretrofitgridandlist.viewmodel.ImageViewModel
 import kotlinx.android.synthetic.main.fragment_list.view.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 
 class ListFragment : Fragment() {
 
@@ -29,19 +27,19 @@ class ListFragment : Fragment() {
         imageViewModel = ViewModelProvider(this).get(ImageViewModel::class.java)
 
         view.image_search.setOnClickListener {
-            getData(view,view.edit_text_search.text.toString())
+            getData(view, view.edit_text_search.text.toString())
         }
 
         view.toggle_view.setOnClickListener {
             isGrid = !isGrid
-            getData(view,"")
+            getData(view, "")
         }
 
-        getData(view,"")
+        getData(view, "")
         return view
     }
 
-    private fun getData(view: View, query : String) {
+    private fun getData(view: View, query: String) {
         val adapter = ListAdapter()
         val recyclerView = view.recycler_view
         recyclerView.adapter = adapter
@@ -52,14 +50,20 @@ class ListFragment : Fragment() {
             recyclerView.layoutManager = LinearLayoutManager(requireContext())
         }
 
-        GlobalScope.launch(Dispatchers.Main) {
-            if(query.isEmpty()){
-                adapter.setData(imageViewModel.getItemList(), isGrid)
-            } else {
-                adapter.setData(imageViewModel.getSearchItemList(query), isGrid)
-            }
+        if (query.isEmpty()) {
+            val list1 = imageViewModel.getItemList()
+            list1.observe(viewLifecycleOwner, Observer {
+                adapter.imgeList = it
+                adapter.notifyDataSetChanged()
+                adapter.setData(isGrid)
+            })
+        } else {
+            val list = imageViewModel.getSearchItemList(query)
+            list.observe(viewLifecycleOwner, Observer {
+                adapter.imgeList = it
+                adapter.notifyDataSetChanged()
+                adapter.setData(isGrid)
+            })
         }
     }
 }
-
-
